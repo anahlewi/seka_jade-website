@@ -1,1 +1,1 @@
-# Jade & Seka's Websiste
+# Jade & Seka's Website
