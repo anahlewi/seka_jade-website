@@ -21,6 +21,14 @@
   .landing-page-button {
     font-size: 0.6em !important;
   }
+  .ampersand-main-title{
+    font-size: "50px";
+  }
+
+  .landing-page-input {
+    width: 80% !important;
+  }
+
   input{
     font-size: 0.8em !important;
   }
@@ -38,6 +46,10 @@
   .form-container {
     width: 100%;
   }
+
+  .password-error {
+    font-size: 0.8em !important;
+  }
 }
 /* Inline nav list for HomePage */
 .nav-inline-list {
@@ -48,6 +60,11 @@
   counter-reset: navlist;
   display: table;
 }
+ .eb-garamond-regular {
+  font-family: "EB Garamond", serif;
+  font-optical-sizing: auto;
+}
+
 .nav-inline-list li {
   display: inline-block;
   margin-right: 0.5em;
@@ -79,12 +96,17 @@
   margin:unset;
 }
 
+.reey-regular {
+  font-family: 'Reey', sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
 .ovo-regular {
   font-family: "Ovo", serif;
   font-weight: 400;
   font-style: normal;
 }
-
 
 .center-text{
   justify-content: center; /* Centers horizontally */
@@ -110,7 +132,7 @@
 
 .password-error{
   font-family: 'Times New Roman', Times, serif;
-  color: #EF2B76;
+  color: red;
   font-size: 1em;
 }
 
@@ -153,17 +175,17 @@ input::placeholder {
   padding: 5px 20px;
   line-height: 2em;
   border-radius: 8px;
-  color: #0A3F2A;
+  color: #4C815E;
   font-family: "sekasfont-regular", sans-serif;
   font-weight: 600;
   
   background-color: transparent;
-  border: 1px solid #0A3F2A;
+  border: 1px solid #4C815E;
   font-size:1em;
 }
 
 .landing-page-button:hover{
-  background-color:#0A3F2A;
+  background-color:#4C815E;
   color:#e2e2e2;
 }
 

@@ -1,12 +1,16 @@
 
-import { Component } from 'react';
-import { Grid, Typography, Button, Badge, Tooltip, Box } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Grid, Typography, Button, Badge, Tooltip, Box, Icon, IconButton, Drawer } from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { motion } from 'framer-motion';
 import ModalComponent from './components/ModalComponent';
 import './App.css';
 import { homePageImageMetaData } from './assets/images/homePageImageMeta';
-import homePageTitleImg from './assets/homepageTitle.png';
+import TitleComponent from './components/TitleComponent';
+import MenuIcon from '@mui/icons-material/Menu';
+import useWindowSize from './hooks/useWindowSize';
+import DrawerComponent from './components/DrawerComponent';
+
 
 const StyledBadge = styled(Badge)`
      & .MuiBadge-badge {
@@ -16,152 +20,157 @@ const StyledBadge = styled(Badge)`
        font-size: 1em;
      }
    `;
-class HomePage extends Component {
-  constructor(props) {
-    super(props);
-    // Check if the user is a wedding guest
-    if (localStorage.getItem('isWeddingGuest') !== 'true') {
+
+function HomePage(props) {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const { width } = useWindowSize();
+  useEffect(() => {
+    if (typeof window !== 'undefined' && localStorage.getItem('isWeddingGuest') !== 'true') {
       window.location.href = '/';
-      return;
     }
-    this.state = {
-      isModalOpen: false,
-      selectedImage: null, // To store the image that is clicke
-    };
-    this.openModal = this.openModal.bind(this);
-    this.closeModal = this.closeModal.bind(this);
-  }
+  }, []);
 
-  openModal(img) {
-    this.setState({ isModalOpen: true, selectedImage:img});
-  }
+  const openModal = (img) => {
+    setIsModalOpen(true);
+    setSelectedImage(img);
+  };
 
-  closeModal() {
-    this.setState({ isModalOpen: false });
-  }
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleDrawerOpen = () => {
+    setDrawerOpen(true);
+  };
+
+  const handleDrawerClose = () => {
+    setDrawerOpen(false);
+  };
 
 
-
-  render() {
-    // Helper to render images by section and row
-    const renderImages = (section, row) =>
-      homePageImageMetaData
-        .filter((img) => img.position.section === section && img.position.grid.row === row)
-        .map((img) => {
-          const commonProps = {
-            key: img.name,
-            alt: img.alt,
-            className: 'draggable image-context',
-            style: { width: img.width, height: img.height },
-          };
-          if (img.motion) {
-            return (
-              <Grid item marginBottom={3} margin={1} key={img.name}>
-                <StyledBadge
-                  badgeInset="14%"
-                  badgeContent={img.key}
-                  anchorOrigin={{ vertical:`${img.vertical}`, horizontal:`${img.horizontal}`}}
-                >
-                  <Tooltip marginRight={1} title={img.name} placement='top'>
-                    <motion.img
-                      src={img.src}
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      onClick={img.onClick? img.onClick : this.openModal.bind(this, img)}
-                      transition={{ duration: img.transitionDuration || 2 }}
-                      {...commonProps}
-                    />
-                  </Tooltip>
-                </StyledBadge>
-              </Grid>
-            );
-          }
+  // Helper to render images by section and row
+  const renderImages = (section, row) =>
+    homePageImageMetaData
+      .filter((img) => img.position.section === section && img.position.grid.row === row)
+      .map
+      ((img) => {
+        const commonProps = {
+          key: img.name,
+          alt: img.alt,
+          className: 'draggable image-context',
+          style: { width: img.width, height: img.height },
+        };
+        if (img.motion) {
           return (
-            <Grid item marginBottom={3} key={img.name}>
+            <Grid item marginBottom={3} margin={1} key={img.name}>
               <StyledBadge
-                badgeContent={img.key}
-                color="primary"
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
                 badgeInset="14%"
-
+                badgeContent={img.key}
+                anchorOrigin={{ vertical:`${img.vertical}`, horizontal:`${img.horizontal}`}}
               >
-                <Tooltip title={img.name} placement='top'>
-                  <img src={img.src} onClick={img.onClick? img.onClick : this.openModal.bind(this, img)} alt={img.alt || ''} {...commonProps} />
+                <Tooltip marginRight={1} title={img.name} placement='top'>
+                  <motion.img
+                    src={img.src}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    onClick={img.onClick? img.onClick : () => openModal(img)}
+                    transition={{ duration: img.transitionDuration || 2 }}
+                    {...commonProps}
+                  />
                 </Tooltip>
               </StyledBadge>
             </Grid>
           );
-        });
-
-    const navItems = homePageImageMetaData.map(item => item.name);
-
-    return (
-      <div>
-        <Grid
-          container
-          direction="column"
-          justifyContent="center"
-          alignItems="center"
-          className="fullpage-container"
-          style={{ minHeight: '100vh', minWidth: '100vw', overflow: 'hidden' }}
-        >
-          <Grid container direction="row" justifyContent="center" alignItems="center" marginBottom={4} marginTop={-2}>
-            <img src={homePageTitleImg} style={{width:330, height:100}} alt="Home Page Title"/>
-          </Grid>
-          {/* Top images row */}
-          <Grid container direction="row" justifyContent="center" marginTop={-2} spacing={1}>
-            {renderImages('top', 1)}
-          </Grid>
-
-          {/* middle images row */}
-          <Grid container direction="row" justifyContent="center" marginTop={-1} spacing={1}>
-            {renderImages('middle', 2)}
-          </Grid>
-
-          {/* Bottom images row */}
-          <Grid container direction="row" justifyContent="center" marginTop={-1} spacing={1}>
-            {renderImages('bottom', 3)}
-          </Grid>
-
-          {/* Footer */}
-            <Button
-                justifyContent="center"
-                onClick={this.openModal}
-                sx={{
-                  fontFamily: 'Sekasfont-Regular',
-                  fontSize: 18,
-                  backgroundColor: '#2C3607',
-                  color: 'white',
-                  width: 300,
-                  height: 35,
-                  borderRadius: 2,
-                  mt: -1
-                }}
+        }
+        return (
+          <Grid item marginBottom={3} key={img.name}>
+            <StyledBadge
+              badgeContent={img.key}
+              color="primary"
+              anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+              badgeInset="14%"
             >
-              RSVP
-            </Button>
-            <ol className='nav-inline-list'>
-              {navItems.map((item, index) => [
-                <li key={item}>{item}</li>,
-                index % 2 ? <br key="break" /> : null
-              ])}
-            </ol>
+              <Tooltip title={img.name} placement='top'>
+                <img src={img.src} onClick={img.onClick? img.onClick : () => openModal(img)} alt={img.alt || ''} {...commonProps} />
+              </Tooltip>
+            </StyledBadge>
+          </Grid>
+        );
+      });
+
+  return (
+    <div>
+      <Box sx={{ position: 'relative', width: '100%', minHeight: 120, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 2 }}>
+        <IconButton
+          edge="start"
+          color="inherit"
+          aria-label="menu"
+          sx={{ position: 'absolute', top: 16, left: 16, zIndex: 2 }}
+          onClick={handleDrawerOpen}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Box justifyItems="center" alignItems="center" >
+          <TitleComponent width={width} />
+        </Box>
+      </Box>
+      <Grid container direction="column" justifyContent="center" marginTop={3} alignItems="center">
+        {/* Top images row */}
+        <Grid container direction="row" justifyContent="center" spacing={1}>
+          {renderImages('top', 1)}
         </Grid>
 
-        {this.state.isModalOpen && (
-          <ModalComponent open={this.state.isModalOpen} onClose={this.closeModal}>
-              <Typography sx={{fontFamily:'Sekasfont-Regular'}} variant="h2" marginTop={4} marginBottom={5} gutterBottom>
-                {this.state.selectedImage.modalContent?.title || 'Modal Title'}
-              </Typography>
-              <Box marginTop={4} marginBottom={2}>
-                {this.state.selectedImage.modalContent?.description || 'No description available.'}
-              </Box>
-          </ModalComponent>
-        )}
-      </div>
-    );
-  }
-}
+        {/* middle images row */}
+        <Grid container direction="column" justifyContent="center" marginTop={-1} spacing={1}>
+          {/* You can add more content here if needed */}
+        </Grid>
 
+        {/* Bottom images row */}
+        <Grid container direction="row" justifyContent="center" marginTop={-1} spacing={1}>
+          {renderImages('middle', 2)}
+          {renderImages('bottom', 3)}
+        </Grid>
+
+        {/* Footer */}
+        <Button
+          justifyContent="center"
+          onClick={openModal}
+          sx={{
+            fontFamily: 'Sekasfont-Regular',
+            fontSize: 18,
+            backgroundColor: '#2C3607',
+            color: 'white',
+            width: 100,
+            height: 35,
+            borderRadius: 2,
+            mt: -1
+          }}
+        >
+          RSVP
+        </Button>
+      </Grid>
+
+      <DrawerComponent 
+        open={drawerOpen} 
+        onClose={handleDrawerClose} 
+        navItems={homePageImageMetaData}
+        onItemClick={openModal}
+      />
+      {isModalOpen && (
+        <ModalComponent open={isModalOpen} onClose={closeModal}>
+          <Typography sx={{ fontFamily: 'Sekasfont-Regular' }} variant="h2" marginTop={4} marginBottom={5} gutterBottom>
+            {selectedImage?.modalContent?.title || 'Modal Title'}
+          </Typography>
+          <Box marginTop={4} marginBottom={2}>
+            {selectedImage?.modalContent?.description || 'No description available.'}
+          </Box>
+        </ModalComponent>
+      )}
+    </div>
+  );
+}
 
 export default HomePage;

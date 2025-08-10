@@ -14,7 +14,7 @@ const scheduleContentList = [{key:'Tampa Guests', title:'Kwanjula', date:'Saturd
     { key:'Uganda Guests', title: 'Kasiki', date: 'Saturday, July 11, 2026', location: 'Entebbe, Uganda'},
     {key:'Zanzibar Guests', title: 'Wedding Ceremony', date: 'Saturday, July 18, 2026', location: 'Zanzibar, Tanzania'}];
 
-const citiesInvitedTo = localStorage.getItem('guestCities').split(/\s*,\s*/) || [];
+const citiesInvitedTo = localStorage.getItem('guestCities')?.split(/\s*,\s*/) || [];
 
 const tampaDescription = (displayContent) => {
     return (

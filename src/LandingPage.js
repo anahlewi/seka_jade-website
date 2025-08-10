@@ -1,9 +1,12 @@
 import './App.css';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import landingPageImg from './assets/landingPageTitle.png';
+// import { Typography } from '@mui/material';
+import TitleComponent from './components/TitleComponent';
+import useWindowSize from './hooks/useWindowSize';
 
 function LandingPage() {
+  const {width} = useWindowSize();
   const [nameInput, setNameInput] = useState(null);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
@@ -23,7 +26,7 @@ function LandingPage() {
       );
       const results = await response.json();
       localStorage.setItem('isWeddingGuest', 'false');
-      localStorage.setItem('guestCities', '');
+      localStorage.setItem('guestCities', null);
 
       if (results.length) {
         console.log(nameInput, 'nameInput');
@@ -41,12 +44,11 @@ function LandingPage() {
       setError(true);
     }
   };
- 
 
   return (
     <div className="container">
       <form className="form-container" onSubmit={handleSubmit}>
-          <img style={{width:400, height:174}} src={landingPageImg}></img>
+          <TitleComponent width={width} />
           {error && <span className="password-error">We didn't recognize that, please try again or contact host</span>}
           <input className="landing-page-input" onChange={(e)=>setNameInput(e.target.value)} placeholder='Enter your full name, email address, or phone number'></input>
           <button className="landing-page-button" type="submit">ENTER</button>
