@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/seka_jade-website/static/css/main.3d3c97d4.css",
+    "main.js": "/seka_jade-website/static/js/main.2932c8c8.js",
+    "static/js/453.4493f7da.chunk.js": "/seka_jade-website/static/js/453.4493f7da.chunk.js",
+    "static/media/scheduleTent.png": "/seka_jade-website/static/media/scheduleTent.acf8a5ba6822e4567d47.png",
+    "static/media/african-mask.png": "/seka_jade-website/static/media/african-mask.627c3525ef882f67a1ab.png",
+    "static/media/gingerbreadhouse.png": "/seka_jade-website/static/media/gingerbreadhouse.b9222f8dd493c3ca734a.png",
+    "static/media/discoball.png": "/seka_jade-website/static/media/discoball.d29e8637551c0cbab322.png",
+    "static/media/goldenrose.png": "/seka_jade-website/static/media/goldenrose.9e91c746b05967c48e62.png",
+    "static/media/marrymegrills.png": "/seka_jade-website/static/media/marrymegrills.4b3dce12cf4a3409a752.png",
+    "static/media/board.png": "/seka_jade-website/static/media/board.1dd152e0734ed16a46d8.png",
+    "static/media/Sekasfont-Regular.woff": "/seka_jade-website/static/media/Sekasfont-Regular.e9f4e776e0bc1955330a.woff",
+    "index.html": "/seka_jade-website/index.html",
+    "main.3d3c97d4.css.map": "/seka_jade-website/static/css/main.3d3c97d4.css.map",
+    "main.2932c8c8.js.map": "/seka_jade-website/static/js/main.2932c8c8.js.map",
+    "453.4493f7da.chunk.js.map": "/seka_jade-website/static/js/453.4493f7da.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3d3c97d4.css",
+    "static/js/main.2932c8c8.js"
+  ]
+}
