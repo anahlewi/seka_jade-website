@@ -11,7 +11,7 @@ function DrawerComponent({ open, onClose, navItems, onItemClick }) {
   return (
     <Drawer anchor="left" open={open} onClose={onClose}>
         <Typography variant="h3" sx={{ padding: 2,   fontFamily: "EB Garamond"}}>
-          Menu
+          Menu c
         </Typography>
       <List sx={{ width: 250 }}>
         {navItems.map((item, idx) => (
